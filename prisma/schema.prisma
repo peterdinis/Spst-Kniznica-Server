@@ -17,7 +17,8 @@ model User {
   password  String   @default(dbgenerated("password123"))
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  // posts     Post[]
+  borrowedBooks Borrowing[]
+
 }
 
 model Category {
@@ -35,10 +36,15 @@ model Book {
   year        Int
   pages       Int
   avaiable    Boolean
+  borrowers   Borrowing[]
 }
 
 
 model Borrowing {
   id          String  @id @default(uuid())
   quantity    Int
+  bookId      Int
+  userId      Int
+  book        Book? @relation(fields: [bookId], references: [id])
+  user        User? @relation(fields: [userId], references: [id])
 }
