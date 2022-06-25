@@ -3,6 +3,7 @@ import {CreateUserDto} from "../user/dto/create-user.dto"
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
 import { ApiTags, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags("Authentication")
 @Controller('auth')
@@ -14,6 +15,7 @@ export class AuthController {
     summary: "Login new user"
   })
   @ApiCreatedResponse()
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
     return this.authService.login(req.user);
