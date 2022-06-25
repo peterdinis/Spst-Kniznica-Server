@@ -43,8 +43,8 @@ model Book {
 model Borrowing {
   id          String  @id @default(uuid())
   quantity    Int
-  bookId      Int
-  userId      Int
-  book        Book? @relation(fields: [bookId], references: [id])
+  book Book @relation(fields:[bookId], references: [id])
   user        User? @relation(fields: [userId], references: [id])
+  bookId      String
+  userId      String
 }
