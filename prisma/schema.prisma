@@ -11,14 +11,20 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String   @default(dbgenerated("password123"))
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String      @id @default(uuid())
+  name          String
+  email         String      @unique
+  password      String      @default(dbgenerated("password123"))
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   borrowedBooks Borrowing[]
+}
 
+model Admin {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String @default(dbgenerated("password123"))
 }
 
 model Category {
@@ -28,7 +34,7 @@ model Category {
 }
 
 model Book {
-  id          String  @id @default(uuid())
+  id          String      @id @default(uuid())
   name        String
   description String
   author      String
@@ -39,12 +45,11 @@ model Book {
   borrowers   Borrowing[]
 }
 
-
 model Borrowing {
-  id          String  @id @default(uuid())
-  quantity    Int
-  book Book @relation(fields:[bookId], references: [id])
-  user        User? @relation(fields: [userId], references: [id])
-  bookId      String
-  userId      String
+  id       String @id @default(uuid())
+  quantity Int
+  book     Book   @relation(fields: [bookId], references: [id])
+  user     User?  @relation(fields: [userId], references: [id])
+  bookId   String
+  userId   String
 }
