@@ -1,42 +1,23 @@
-import { Controller, Post, UseGuards, Request, Get, Body } from '@nestjs/common';
-import {CreateUserDto} from "../user/dto/create-user.dto"
+import { Body, Controller, Get, Post, Request, Response } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt.guard';
-import { ApiTags, ApiOperation, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { AuthDto } from './dto/auth.dto';
 
-@ApiTags("Authentication")
 @Controller('auth')
 export class AuthController {
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) { }
-
-  @ApiOperation({
-    summary: "Login new user"
-  })
-  @ApiCreatedResponse()
-  @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  @Post('signup')
+  signup(@Body() dto: AuthDto) {
+    return this.authService.signup(dto);
   }
 
-  @ApiOperation({
-    summary: "Logged user data"
-  })
-  @ApiOkResponse()
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @Post('signin')
+  async signin(@Request() req, @Response() res, @Body() dto: AuthDto) {
+    return this.authService.signin(dto, req, res);
   }
 
-  @ApiOperation({
-    summary: "Register new user"
-  })
-  @ApiCreatedResponse()
-  @Post('register')
-  async register(@Body() createUserDto: CreateUserDto) {
-    return this.authService.register(createUserDto)
+  @Get('signout')
+  signout(@Request() req, @Response() res) {
+    return this.authService.signout(req, res);
   }
 }
