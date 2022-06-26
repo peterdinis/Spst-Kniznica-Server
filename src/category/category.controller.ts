@@ -6,7 +6,6 @@ import {
     Patch,
     Param,
     Delete,
-    Query,
   } from '@nestjs/common';
 import {CategoryService} from "./category.service"
 import {CreateCategoryDto} from "./dto/create-category.dto"
