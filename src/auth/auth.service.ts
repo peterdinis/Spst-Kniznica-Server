@@ -14,62 +14,15 @@ import {
     constructor(private prisma: PrismaService, private jwt: JwtService) {}
   
     async signup(dto: AuthDto) {
-      const { email, password } = dto;
-  
-      const userExists = await this.prisma.user.findUnique({
+      const {email, password} = dto;
+      const userExists = await this.prisma..findUnique({
         where: { email },
       });
   
-      if (userExists) {
-        throw new BadRequestException('Email already exists');
-      }
-  
-      const hashedPassword = await this.hashPassword(password);
-  
-      await this.prisma.user.create({
-        data: {
-          email,
-          hashedPassword,
-        },
-      });
-  
-      return { message: 'User created succefully' };
     }
   
     async signin(dto: AuthDto, req: Request, res: Response) {
-      const { email, password } = dto;
-  
-      const foundUser = await this.prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-  
-      if (!foundUser) {
-        throw new BadRequestException('Wrong credentials');
-      }
-  
-      const compareSuccess = await this.comparePasswords({
-        password,
-        hash: foundUser.hashedPassword,
-      });
-  
-      if (!compareSuccess) {
-        throw new BadRequestException('Wrong credentials');
-      }
-  
-      const token = await this.signToken({
-        userId: foundUser.id,
-        email: foundUser.email,
-      });
-  
-      if (!token) {
-        throw new ForbiddenException('Could not signin');
-      }
-  
-      res.cookie('token', token, {});
-  
-      return res.send({ message: 'Logged in succefully' });
+     
     }
   
     async signout(req: Request, res: Response) {
