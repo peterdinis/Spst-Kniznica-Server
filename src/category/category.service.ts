@@ -21,7 +21,7 @@ export class CategoryService {
         return result;
     }
 
-    findOne(id: string) {
+    async findOne(id: string) {
         return this.prismaService.category.findUnique({ where: { id } });
       }
     
