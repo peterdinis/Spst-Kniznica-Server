@@ -1,38 +1,36 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {Request} from "express";
 
 @Injectable()
 export class UsersService {
-  private logger = new Logger(UsersService.name);
   constructor(private prismaService: PrismaService) { }
-  getUserByEmail(email: string) {
-    return this.prismaService.user.findUnique({ where: { email } })
-  }
-  async create(createUserDto: CreateUserDto) {
-    const result = await this.prismaService.user.create({ data: createUserDto });
-    this.logger.log(`User has been created : ${JSON.stringify(result)}`)
-    return result;
+
+  async getUser(id: string, req: Request) {
+    const decodedUserInfo = req.user as { id: string; email: string };
+
+    const foundUser = await this.prismaService.user.findUnique({ where: { id } });
+
+    if (!foundUser) {
+      throw new NotFoundException();
+    }
+
+    if (foundUser.id !== decodedUserInfo.id) {
+      throw new ForbiddenException();
+    }
+
+    return { user: foundUser };
   }
 
-  findOne(id: string) {
-    return this.prismaService.user.findUnique({ where: { id } });
-  }
+  async getUsers() {
+    const users = await this.prismaService.user.findMany({
+      select: {
+        id: true,
+        email: true
+      }
+    })
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    const result = await this.prismaService.user.update({
-      data: updateUserDto,
-      where: { id },
-    });
-    this.logger.warn(`User has been updated : ${JSON.stringify(result)}`)
-    return result;
+    return users;
   }
-
-  async remove(id: string) {
-
-    const result = await this.prismaService.user.delete({ where: { id } });
-    this.logger.warn(`User has been deleted : ${JSON.stringify(result)}`)
-    return result;
-  }
+ 
 }
