@@ -7,5 +7,14 @@ export class BorrowingService {
 
     constructor(private prismaService: PrismaService) { }
 
+    async myCard() {
+      
+    }
 
+
+    async borrowBook() {}
+
+    async removeBook() {}
+
+    async updateQuantity() {}
 }
