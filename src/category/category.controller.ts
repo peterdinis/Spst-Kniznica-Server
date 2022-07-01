@@ -32,7 +32,7 @@ export class CategoryController {
     @ApiCreatedResponse()
     @Post("/")
     createCategory(@Body() createData: CreateCategoryDto) {
-        return this.categoriesService.create(createData)
+        return this.categoriesService.createCategory(createData)
     }
 
     @ApiOperation({
@@ -44,7 +44,7 @@ export class CategoryController {
         @Param("id") id: string,
         @Body() updateData: UpdateCategoryDto
     ) {
-        return this.categoriesService.update(id, updateData);
+        return this.categoriesService.updateCategory(id, updateData);
     }
 
     @ApiOperation({
@@ -53,6 +53,6 @@ export class CategoryController {
     @ApiOkResponse()
     @Delete("/:id")
     deleteCategory(@Param("id") id: string) {
-        return this.categoriesService.remove(id);
+        return this.categoriesService.removeCategory(id);
     }
 }

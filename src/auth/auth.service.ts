@@ -15,7 +15,7 @@ import {
   
     async signup(dto: AuthDto) {
       const {email, password} = dto;
-      const userExists = await this.prisma..findUnique({
+      const userExists = await this.prisma.findUnique({
         where: { email },
       });
   
