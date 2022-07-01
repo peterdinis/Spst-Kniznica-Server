@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { ConfigService } from './config.service';
 
 export const databaseProviders = [
     {
