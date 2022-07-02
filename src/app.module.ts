@@ -7,6 +7,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 @Module({
   imports: [
     CategoryModule,
+    BookModule,
     EventEmitterModule.forRoot()
   ],
 })
