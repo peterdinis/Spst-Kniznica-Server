@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { Book } from 'src/book/book.entity';
 import { Category } from 'src/category/category.entity';
-import { User } from 'src/user/user.entity';
 
 export const databaseProviders = [
     {
@@ -15,7 +14,7 @@ export const databaseProviders = [
             password: 'PETERdinis1234',
             database: 'spstapp',
           });
-          sequelize.addModels([Book, Category, User]);
+          sequelize.addModels([Book, Category]);
           await sequelize.sync();
           return sequelize;
         },
