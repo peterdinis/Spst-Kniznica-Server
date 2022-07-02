@@ -4,6 +4,7 @@ import { CategoryModule } from './category/category.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import {UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ConfigModule } from '@nestjs/config';
     CategoryModule,
     BookModule,
     EventEmitterModule.forRoot(),
-    UserModule
+    UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
