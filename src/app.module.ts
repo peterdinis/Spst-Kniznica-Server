@@ -12,7 +12,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     CategoryModule,
     BookModule,
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot()
   ],
 })
 export class AppModule {}
