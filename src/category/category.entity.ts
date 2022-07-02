@@ -4,9 +4,7 @@ import {
     AutoIncrement,
     Column,
     DataType,
-    Model,
-    Unique,
-    Length,
+    Model
 } from 'sequelize-typescript';
 
 @Table({
@@ -20,19 +18,9 @@ export class Category extends Model<Category> {
     @Column(DataType.BIGINT)
     id: number;
 
-    @Column({
-        type: DataType.STRING
-    })
-    @Length({
-        min: 3
-    })
+    @Column
     name: string;
     
-    @Column({
-        type: DataType.STRING
-    })
-    @Length({
-        min: 3
-    })
+    @Column
     description: string;
 }
