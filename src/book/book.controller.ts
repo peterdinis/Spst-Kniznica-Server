@@ -35,7 +35,7 @@ export class BookController {
     createBook(
         @Body() createBookData: CreateBookDto
     ) {
-        return this.bookService.createNewbook(createBookData);
+        return this.bookService.createBook(createBookData);
     }
 
     @ApiOperation({
@@ -58,7 +58,7 @@ export class BookController {
         @Param("id") id: string,
         @Body() updateBookData: UpdateBookDto
     ) {
-        return this.bookService.update(id, updateBookData);
+        return this.bookService.updateBook(id, updateBookData);
     }
 
     @ApiOperation({
@@ -68,6 +68,6 @@ export class BookController {
     deleteBook(
         @Param("id") id: string
     ) {
-        return this.bookService.remove(id);
+        return this.bookService.removeBook(id);
     }
 }

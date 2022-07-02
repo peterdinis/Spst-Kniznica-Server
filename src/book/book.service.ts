@@ -1,42 +1,64 @@
-import { Injectable, Logger } from '@nestjs/common';
-import {PrismaService} from "../prisma/prisma.service";
-import { CreateBookDto } from './dto/create-book.dto';
-import { UpdateBookDto } from './dto/update-book.dto';
+import { Injectable, Inject } from '@nestjs/common';
+import {Book} from "./book.entity"
+import {CreateBookDto} from "./dto/create-book.dto";
+import {UpdateBookDto} from "./dto/update-book.dto";
+
 @Injectable()
 export class BookService {
-    private logger = new Logger(BookService.name);
+  constructor(@Inject("BookRepository") private readonly bookRepository: typeof Book) {}
 
-    constructor(private prismaService: PrismaService) { }
+  async allBooks() {
+    const books = await this.bookRepository.findAll({});
+    return books;
+  }
 
-    async createNewbook(createBookData: CreateBookDto) {
-        const result = await this.prismaService.book.create({
-            data: createBookData
-        });
-        this.logger.log(`Book has been created : ${JSON.stringify(result)}`)
-        return result
-    }
+  async createBook(createBookData: CreateBookDto) {
+    const book = new Book();
+    book.name = createBookData.name,
+    book.description = createBookData.description,
+    book.author = createBookData.author;
+    book.year = createBookData.year;
+    book.pages = createBookData.pages;
+    book.avaiable = createBookData.avaiable;
 
-    async allBooks() {
-        const result = await this.prismaService.book.findMany();
-        return result
-    }
+    return book.save();
+  }
 
-    async findOneBook(id: string) {
-        return this.prismaService.book.findUnique({ where: { id } });
-    }
-
-    async update(id: string, updateBookData: UpdateBookDto) {
-        const result = await this.prismaService.book.update({
-          data: updateBookData,
-          where: { id },
-        });
-        this.logger.warn(`Book has been updated : ${JSON.stringify(result)}`)
-        return result
+  async findOneBook(id: string) {
+    const book = await this.bookRepository.findOne({
+      where: {
+        id
       }
-    
-      async remove(id: string) {
-        const result = await this.prismaService.book.delete({ where: { id } });
-        this.logger.warn(`Book has been deleted : ${JSON.stringify(result)}`)
-        return result
+    });
+
+    return book;
+  }
+
+  async updateBook(id: string, updateBook: UpdateBookDto) {
+    const book = await this.bookRepository.findOne({
+      where: {
+        id
       }
+    });
+
+    book.name = updateBook.name || book.name;
+    book.description = updateBook.description || book.description
+    book.author = updateBook.author || book.author;
+    book.year = updateBook.year || book.year;
+    book.pages = updateBook.pages || book.pages;
+    book.avaiable = updateBook.avaiable || book.avaiable;
+
+    return book.save();
+  }
+
+  async removeBook(id: string) {
+    const book = await this.bookRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    await book.destroy();
+    return book
+  }
 }
