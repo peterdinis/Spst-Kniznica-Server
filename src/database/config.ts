@@ -9,6 +9,7 @@ export const config = {
         password: 'PETERdinis1234',
         database: 'developdb',
         logging: false,
+        sync: true
     },
     jwtPrivateKey: 'jwtPrivateKey',
 };
