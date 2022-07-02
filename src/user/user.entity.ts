@@ -22,7 +22,6 @@ export class User extends Model<User> {
     name: string
 
     @Column
-    @Unique(true)
     email: string;
 
     @Column
