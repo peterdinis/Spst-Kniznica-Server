@@ -12,7 +12,7 @@ import { AdminGateway } from './admin/admin.gateway';
     }),
     CategoryModule,
     BookModule,
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot()
     
   ],
 
