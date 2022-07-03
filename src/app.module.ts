@@ -3,8 +3,7 @@ import { BookModule } from './book/book.module';
 import { CategoryModule } from './category/category.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
-import { AdminModule } from './admin/admin.module';
-
+import { AdminGateway } from './admin/admin.gateway';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,8 +13,9 @@ import { AdminModule } from './admin/admin.module';
     CategoryModule,
     BookModule,
     EventEmitterModule.forRoot(),
-    AdminModule,
     
   ],
+
+  providers: [AdminGateway]
 })
 export class AppModule {}
