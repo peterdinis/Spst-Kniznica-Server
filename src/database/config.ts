@@ -1,6 +1,6 @@
 import {Dialect} from "sequelize/types";
 
-export const config: any = {
+export const config= {
     database: {
         dialect: 'postgres' as Dialect,
         host: 'localhost',
