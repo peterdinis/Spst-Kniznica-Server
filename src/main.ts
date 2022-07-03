@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,7 @@ async function bootstrap() {
   
   app.useGlobalPipes(new ValidationPipe());
   app.use(helmet());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   await app.listen(3001);
 }
 bootstrap();
