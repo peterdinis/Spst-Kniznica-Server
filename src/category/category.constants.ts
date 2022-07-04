@@ -1,0 +1,1 @@
+export const CategoryRepository = "CategoryRepository";

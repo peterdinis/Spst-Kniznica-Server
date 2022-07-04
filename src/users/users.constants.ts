@@ -1,0 +1,1 @@
+export const UserRepository = "UserRepository";
