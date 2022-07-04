@@ -6,6 +6,9 @@ import {
     DataType,
     Model,
     Unique,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
 } from 'sequelize-typescript';
 
 export interface IBook {
@@ -16,6 +19,9 @@ export interface IBook {
     year: number;
     pages: number;
     avaiable: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
 }
 
 @Table({
@@ -57,4 +63,16 @@ export class Book extends Model<IBook> {
         type: DataType.BOOLEAN
     })
     avaiable: boolean;
+
+    @CreatedAt
+    @Column({ field: 'created_at' })
+    createdAt: Date;
+
+    @UpdatedAt
+    @Column({ field: 'updated_at' })
+    updatedAt: Date;
+
+    @DeletedAt
+    @Column({ field: 'deleted_at' })
+    deletedAt: Date;
 }

@@ -4,18 +4,23 @@ import {
     AutoIncrement,
     Column,
     DataType,
-    Model
+    Model,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
 } from 'sequelize-typescript';
-
-@Table({
-    tableName: "categories"
-})
 
 interface ICategory {
     id: number;
     name: string;
     description: string;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
 }
+@Table({
+    tableName: "categories"
+})
 
 export class Category extends Model<ICategory> {
     @PrimaryKey
@@ -28,4 +33,16 @@ export class Category extends Model<ICategory> {
     
     @Column
     description: string;
+
+    @CreatedAt
+    @Column({ field: 'created_at' })
+    createdAt: Date;
+
+    @UpdatedAt
+    @Column({ field: 'updated_at' })
+    updatedAt: Date;
+
+    @DeletedAt
+    @Column({ field: 'deleted_at' })
+    deletedAt: Date;
 }
