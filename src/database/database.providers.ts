@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Book } from 'src/book/book.entity';
-import { Category } from 'src/category/category.entity';
-import { User } from 'src/users/user.entity';
+import { Book } from '../book/book.entity';
+import { Category } from '../category/category.entity';
+import { User } from '../users/user.entity';
 
 export const databaseProviders = [
     {
