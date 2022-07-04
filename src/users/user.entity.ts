@@ -8,11 +8,10 @@ import {
     CreatedAt,
     UpdatedAt,
     DeletedAt,
-    HasMany,
 } from 'sequelize-typescript';
 
 @Table({
-    tableName: 'user',
+    tableName: 'students',
 })
 export class User extends Model<User> {
     @Column({

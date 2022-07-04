@@ -4,7 +4,6 @@ import {
     Get,
     Post,
     Body,
-    HttpCode,
     Delete,
     Req,
     UseGuards,
@@ -13,7 +12,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
-import { ApiTags, ApiOkResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { UserLoginResponseDto } from './dto/user-login-response.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -23,6 +22,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @ApiOperation({
+        summary: "Register User"
+    })
     @Post('register')
     @ApiOkResponse({ type: UserLoginResponseDto })
     register(
@@ -31,8 +33,10 @@ export class UsersController {
         return this.usersService.create(createUserDto);
     }
 
+    @ApiOperation({
+        summary: "Login User"
+    })
     @Post('login')
-    @HttpCode(200)
     @ApiOkResponse({ type: UserLoginResponseDto })
     login(
         @Body() userLoginRequestDto: UserLoginRequestDto,
@@ -44,6 +48,9 @@ export class UsersController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ type: [UserDto] })
+    @ApiOperation({
+        summary: "Find all users"
+    })
     findAll(): Promise<UserDto[]> {
         return this.usersService.findAll();
     }
@@ -51,6 +58,9 @@ export class UsersController {
     @Get('me')
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
+    @ApiOperation({
+        summary: "Profile"
+    })
     @ApiOkResponse({ type: UserDto })
     async getUser(@Req() request): Promise<UserDto> {
         return this.usersService.getUser(request.user.id);
@@ -60,6 +70,9 @@ export class UsersController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ type: UserDto })
+    @ApiOperation({
+        summary: "Update user"
+    })
     update(
         @Body() updateUserDto: UpdateUserDto,
         @Req() request,
@@ -69,6 +82,9 @@ export class UsersController {
 
     @Delete('me')
     @ApiBearerAuth()
+    @ApiOperation({
+        summary: "Delete user"
+    })
     @UseGuards(AuthGuard('jwt'))
     @ApiOkResponse({ type: UserDto })
     delete(@Req() request): Promise<UserDto> {

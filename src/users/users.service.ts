@@ -13,7 +13,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
 
     constructor(
-        @Inject('UsersRepository')
+        @Inject('UserRepository')
         private readonly usersRepository: typeof User,
     ) {}
 
@@ -54,12 +54,6 @@ export class UsersService {
             const token = await this.signToken(userData);
             return new UserLoginResponseDto(userData, token);
         } catch (err) {
-            if (err.original.constraint === 'user_email_key') {
-                throw new HttpException(
-                    `User with email '${err.errors[0].value}' already exists`,
-                    HttpStatus.CONFLICT,
-                );
-            }
 
             throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -69,7 +63,10 @@ export class UsersService {
         const email = userLoginRequestDto.email;
         const password = userLoginRequestDto.password;
 
-        const user = await this.getUserByEmail(email);
+        const user = await this.usersRepository.findOne<User>({
+            where: { email },
+        });
+        console.log(user);
         if (!user) {
             throw new HttpException(
                 'Invalid email or password.',
