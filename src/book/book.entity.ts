@@ -8,10 +8,20 @@ import {
     Unique,
 } from 'sequelize-typescript';
 
+export interface IBook {
+    id: number;
+    name: string;
+    description: string;
+    author: string;
+    year: number;
+    pages: number;
+    avaiable: boolean;
+}
+
 @Table({
     tableName: "books"
 })
-export class Book extends Model<Book> {
+export class Book extends Model<IBook> {
     @PrimaryKey
     @AutoIncrement
     @Column(DataType.BIGINT)

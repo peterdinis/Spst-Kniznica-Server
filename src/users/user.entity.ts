@@ -10,10 +10,21 @@ import {
     DeletedAt,
 } from 'sequelize-typescript';
 
+interface IUser {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
+}
 @Table({
     tableName: 'students',
 })
-export class User extends Model<User> {
+
+
+export class User extends Model<IUser> {
     @Column({
         type: DataType.UUID,
         defaultValue: DataType.UUIDV4,

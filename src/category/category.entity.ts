@@ -11,8 +11,13 @@ import {
     tableName: "categories"
 })
 
+interface ICategory {
+    id: number;
+    name: string;
+    description: string;
+}
 
-export class Category extends Model<Category> {
+export class Category extends Model<ICategory> {
     @PrimaryKey
     @AutoIncrement
     @Column(DataType.BIGINT)
