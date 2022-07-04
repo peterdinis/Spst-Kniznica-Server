@@ -1,3 +1,4 @@
+import 'jest-extended';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -23,7 +24,19 @@ describe('Category e2e tests', () => {
         .expect(HttpStatus.OK);
 
       const data = response.body;
-      console.log(data);
+      const expectedCategories = [
+        {
+          id: expect.any(String),
+          name: expect.any(String),
+          description: expect.any(String),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+          deletedAt: expect.any(String),
+        },
+      ];
+
+      expect(data).toBeArray();
+      expect(data).toEqual(expectedCategories);
     });
   });
 });
