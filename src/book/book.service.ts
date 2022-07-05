@@ -20,6 +20,7 @@ export class BookService {
     book.year = createBookData.year;
     book.pages = createBookData.pages;
     book.avaiable = createBookData.avaiable;
+    book.borrowedTime = createBookData.borrowedTime;
 
     return book.save();
   }
@@ -47,6 +48,7 @@ export class BookService {
     book.year = updateBook.year || book.year;
     book.pages = updateBook.pages || book.pages;
     book.avaiable = updateBook.avaiable || book.avaiable;
+    book.borrowedTime = updateBook.borrowedTime || book.borrowedTime;
 
     return book.save();
   }

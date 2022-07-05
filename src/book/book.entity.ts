@@ -16,6 +16,7 @@ export interface IBook {
     year: number;
     pages: number;
     avaiable: boolean;
+    borrowedTime: Date
 }
 
 @Table({
@@ -57,4 +58,9 @@ export class Book extends Model<IBook> {
         type: DataType.BOOLEAN
     })
     avaiable: boolean;
+
+    @Column({
+        type: DataType.DATE
+    })
+    borrowedTime: Date
 }
