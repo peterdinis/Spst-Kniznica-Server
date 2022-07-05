@@ -1,13 +1,13 @@
-import { UserDto } from './user.dto';
+import { AdminDto } from './admin.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../user.entity';
+import { Admin } from '../admin.entity';
 
-export class UserLoginResponseDto extends UserDto {
+export class AdminLoginResponseDto extends AdminDto {
     @ApiProperty()
     token: string;
 
-    constructor(user: User, token?: string) {
-        super(user);
+    constructor(admin: Admin, token?: string) {
+        super(admin);
         this.token = token;
     }
 }
