@@ -66,7 +66,6 @@ export class UsersService {
         const user = await this.usersRepository.findOne<User>({
             where: { email },
         });
-        console.log(user);
         if (!user) {
             throw new HttpException(
                 'Invalid email or password.',

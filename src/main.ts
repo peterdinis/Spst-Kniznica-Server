@@ -7,7 +7,9 @@ import { setupSwagger } from './swagger';
 import { HttpExceptionFilter } from './common/exceptions/http.exception.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: console
+  });
   app.enableCors({
     credentials: true,
     allowedHeaders: '*',
