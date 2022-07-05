@@ -5,6 +5,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
+import { SeederModule } from 'nestjs-sequelize-seeder';
 
 @Module({
   imports: [
@@ -16,7 +17,12 @@ import { UsersModule } from './users/users.module';
     BookModule,
     EventEmitterModule.forRoot(),
     AdminModule,
-    UsersModule
+    UsersModule,
+    SeederModule.forRoot({
+      isGlobal: true,
+      // Activate this if you want to run the seeders if the table is empty in the database
+      runOnlyIfTableIsEmpty: true,
+   }),
     
   ]
 })
