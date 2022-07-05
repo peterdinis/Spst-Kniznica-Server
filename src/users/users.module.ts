@@ -9,6 +9,6 @@ import { JwtStrategy } from './auth/jwt-strategy';
     imports: [DatabaseModule],
     controllers: [UsersController],
     providers: [UsersService, ...userProviders, JwtStrategy],
-    exports: [UsersService],
+    exports: [UsersService, ...userProviders],
 })
 export class UsersModule {}

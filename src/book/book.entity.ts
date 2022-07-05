@@ -69,5 +69,5 @@ export class Book extends Model<IBook> {
     borrowedTime: Date;
 
     @HasOne(() =>Borrow)
-    borrow: Borrow[]
+    borrowedBook: Borrow[]
 }
