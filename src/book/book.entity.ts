@@ -23,8 +23,6 @@ export interface IBook {
     borrowedBook: any;
 }
 
-export type IBookId = Pick<IBook, 'id'>;
-
 @Table({
     tableName: "books"
 })
@@ -69,4 +67,7 @@ export class Book extends Model<IBook> {
         type: DataType.DATE
     })
     borrowedTime: Date;
+
+    @HasOne(() =>Borrow)
+    borrow: Borrow[]
 }

@@ -22,9 +22,6 @@ export interface IUser {
     deletedAt: Date;
     borrowedBooks: any
 }
-
-export type IUserId = Pick<IUser, 'id'>;
-
 @Table({
     tableName: 'students',
 })
