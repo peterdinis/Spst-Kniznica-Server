@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Admin } from '../admin/admin.entity';
 import { Book } from '../book/book.entity';
 import { Category } from '../category/category.entity';
 import { User } from '../users/user.entity';
@@ -15,7 +16,7 @@ export const databaseProviders = [
             password: 'PETERdinis1234',
             database: 'spstapp',
           });
-          sequelize.addModels([Book, Category, User]);
+          sequelize.addModels([Book, Category, User, Admin]);
           await sequelize.sync();
           return sequelize;
         },
