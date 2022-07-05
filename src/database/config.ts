@@ -8,7 +8,8 @@ export const config= {
         username: 'postgres',
         password: 'PETERdinis1234',
         database: 'developdb',
-        sync: true
+        sync: true,
+        logging: false
     },
     jwtPrivateKey: 'jwtPrivateKey',
 };

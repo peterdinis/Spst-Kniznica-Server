@@ -8,12 +8,9 @@ import {
     BelongsTo,
     ForeignKey
 } from 'sequelize-typescript';
-import { Book } from '../book/book.entity';
-import { User } from '../users/user.entity';
+import { Book, IBook, IBookId } from '../book/book.entity';
+import { IUser, IUserId, User } from '../users/user.entity';
 
-interface IBorrow {
-    
-}
 
 @Table({
     tableName: "borrowers"
@@ -33,20 +30,15 @@ export class Borrow extends Model<Borrow> {
     @ForeignKey(() => User)
     @Column({
         type: DataType.UUID,
-        field: 'user_id'
+        primaryKey: true,
+        allowNull: false,
+        references: {
+            model: User,
+            key: "id"
+        }
     })
     userId: string
 
-    @ForeignKey(() => Book)
-    @Column({
-        type: DataType.STRING,
-        field: "book_id"
-    })
-    bookId: string;
-
     @BelongsTo(() =>User)
     user: User;
-
-    @BelongsTo(() => Book)
-    book: Book
 }

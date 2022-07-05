@@ -12,7 +12,7 @@ import {
 } from 'sequelize-typescript';
 import { Borrow } from 'src/borrowing/borrowing.entity';
 
-interface IUser {
+export interface IUser {
     id: string;
     email: string;
     firstName: string;

@@ -7,6 +7,7 @@ import {
     Model,
     Unique,
     HasOne,
+    HasMany,
 } from 'sequelize-typescript';
 import { Borrow } from 'src/borrowing/borrowing.entity';
 
@@ -67,8 +68,5 @@ export class Book extends Model<IBook> {
     @Column({
         type: DataType.DATE
     })
-    borrowedTime: Date
-
-    @HasOne(() =>Borrow)
-    borrowedBook: Borrow
+    borrowedTime: Date;
 }
