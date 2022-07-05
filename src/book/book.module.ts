@@ -8,7 +8,7 @@ import {bookProviders} from "./book.providers"
     imports: [DatabaseModule],
     controllers: [BookController],
     providers: [BookService, ...bookProviders],
-    exports: [BookService]
+    exports: [BookService, ...bookProviders]
 })
 
 export class BookModule {}
