@@ -8,7 +8,9 @@ import {
     CreatedAt,
     UpdatedAt,
     DeletedAt,
+    HasMany,
 } from 'sequelize-typescript';
+import { Borrow } from 'src/borrowing/borrowing.entity';
 
 interface IUser {
     id: string;
@@ -18,7 +20,11 @@ interface IUser {
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date;
+    borrowedBooks: any
 }
+
+export type IUserId = Pick<IUser, 'id'>;
+
 @Table({
     tableName: 'students',
 })
@@ -57,4 +63,7 @@ export class User extends Model<IUser> {
     @DeletedAt
     @Column({ field: 'deleted_at' })
     deletedAt: Date;
+
+    @HasMany(() => Borrow)
+    borrowedBooks: Borrow[];
 }

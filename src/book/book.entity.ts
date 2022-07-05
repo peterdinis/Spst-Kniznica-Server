@@ -6,7 +6,9 @@ import {
     DataType,
     Model,
     Unique,
+    HasOne,
 } from 'sequelize-typescript';
+import { Borrow } from 'src/borrowing/borrowing.entity';
 
 export interface IBook {
     id: number;
@@ -16,8 +18,11 @@ export interface IBook {
     year: number;
     pages: number;
     avaiable: boolean;
-    borrowedTime: Date
+    borrowedTime: Date,
+    borrowedBook: any;
 }
+
+export type IBookId = Pick<IBook, 'id'>;
 
 @Table({
     tableName: "books"
@@ -63,4 +68,7 @@ export class Book extends Model<IBook> {
         type: DataType.DATE
     })
     borrowedTime: Date
+
+    @HasOne(() =>Borrow)
+    borrowedBook: Borrow
 }
