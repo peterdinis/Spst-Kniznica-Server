@@ -1,7 +1,7 @@
-import { User } from './../user.entity';
+import { Admin } from '../admin.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserDto {
+export class AdminDto {
     @ApiProperty()
     id: string;
 
@@ -14,10 +14,14 @@ export class UserDto {
     @ApiProperty()
     readonly lastName: string;
 
-    constructor(user: User) {
-        this.id = user.id;
-        this.email = user.email;
-        this.firstName = user.firstName;
-        this.lastName = user.lastName;
+    @ApiProperty()
+    readonly status: string;
+
+    constructor(admin: Admin) {
+        this.id =admin.id;
+        this.email =admin.email;
+        this.firstName =admin.firstName;
+        this.status = admin.status,
+        this.lastName =admin.lastName;
     }
 }
