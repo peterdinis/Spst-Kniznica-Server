@@ -63,11 +63,6 @@ export class Book extends Model<IBook> {
     })
     avaiable: boolean;
 
-    @Column({
-        type: DataType.DATE
-    })
-    borrowedTime: Date;
-
     @HasOne(() =>Borrow)
     borrowedBook: Borrow[]
 }
