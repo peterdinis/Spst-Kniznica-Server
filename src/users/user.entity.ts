@@ -23,8 +23,8 @@ export interface IUser {
     updatedAt: Date;
     deletedAt: Date;
     borrowedBooks: any
-    avatar?: Upload;
-    avatarId?: number;
+    avatar: Upload;
+    avatarId: number;
 }
 @Table({
     tableName: 'students',

@@ -9,6 +9,7 @@ import { JwtPayload } from './auth/jwt-payload.model';
 import { sign } from 'jsonwebtoken';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './users.constants';
+import { UploadsService } from '../uploads/uploads.service';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +17,7 @@ export class UsersService {
     constructor(
         @Inject(UserRepository)
         private readonly usersRepository: typeof User,
+        private readonly uploadsService: UploadsService
     ) {}
 
     async findAll() {
@@ -116,4 +118,11 @@ export class UsersService {
 
         return sign(payload, process.env.JWT_KEY as string, {});
     }
+
+   /*  async addAvatar(userId: any, fileData: LocalFileDto) {
+        const avatar = await this.uploadsService.saveLocalFileData(fileData);
+        await this.usersRepository.update(userId, {
+          avatarId: avatar.id
+        })
+      } */
 }
