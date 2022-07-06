@@ -21,9 +21,7 @@ import {BorrowingModule} from "./borrowing/borrowing.module";
     UsersModule,
     BorrowingModule,
     SeederModule.forRoot({
-      isGlobal: true,
-      // Activate this if you want to run the seeders if the table is empty in the database
-      runOnlyIfTableIsEmpty: true,
+      isGlobal: true
    }),
     
   ]

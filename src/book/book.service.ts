@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { BookRepository } from './book.constants';
 import {Book} from "./book.entity"
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
 
 @Injectable()
 export class BookService {
-  constructor(@Inject("BookRepository") private readonly bookRepository: typeof Book) {}
+  constructor(@Inject(BookRepository) private readonly bookRepository: typeof Book) {}
 
   async allBooks() {
     const books = await this.bookRepository.findAll({});

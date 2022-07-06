@@ -2,18 +2,17 @@ import { Injectable, Inject, BadRequestException, NotFoundException } from '@nes
 import {Borrow} from "./borrowing.entity";
 import {Book} from "../book/book.entity";
 import {User} from "../users/user.entity";
-import {BookService} from "../book/book.service";
-import {UsersService} from "../users/users.service";
 import { UpdateQuantityDto } from './dto/card.dto';
+import { BookRepository } from 'src/book/book.constants';
+import { UserRepository } from 'src/users/users.constants';
+import { BorrowingRepository } from './borrowing.constants';
 
 @Injectable()
 export class BorrowingService {
     constructor(
-        private readonly bookService: BookService,
-        private readonly usersService: UsersService,
-        @Inject("BookRepository") private readonly bookRepository: typeof Book,
-        @Inject("UserRepository") private readonly userRepository: typeof User,
-        @Inject("BorrowingRepository") private readonly borrowingRepository: typeof Borrow,
+        @Inject(BookRepository) private readonly bookRepository: typeof Book,
+        @Inject(UserRepository) private readonly userRepository: typeof User,
+        @Inject(BorrowingRepository) private readonly borrowingRepository: typeof Borrow,
     ) {}
 
 
