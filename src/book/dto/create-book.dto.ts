@@ -36,8 +36,4 @@ export class CreateBookDto {
     @IsNotEmpty()
     @ApiProperty()
     avaiable: boolean;
-
-    @IsNotEmpty()
-    @ApiProperty()
-    borrowedTime: Date;
 }
