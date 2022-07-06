@@ -90,4 +90,13 @@ export class UsersController {
     delete(@Req() request): Promise<UserDto> {
         return this.usersService.delete(request.user.id);
     }
+
+    @Delete("logout")
+    @ApiOperation({
+        summary: "Logout user"
+    })
+    @ApiOkResponse()
+    logoutUser() {
+        return this.usersService.logoutUser();
+    }
 }

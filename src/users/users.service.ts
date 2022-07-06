@@ -85,6 +85,10 @@ export class UsersService {
         return new UserLoginResponseDto(user, token);
     }
 
+    async logoutUser() {
+        /* TODO: Later */
+    }
+
     async update(id: string, updateUserDto: UpdateUserDto) {
         const user = await this.usersRepository.findByPk<User>(id);
         if (!user) {
