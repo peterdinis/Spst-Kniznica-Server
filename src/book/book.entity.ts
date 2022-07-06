@@ -6,8 +6,7 @@ import {
     DataType,
     Model,
     Unique,
-    HasOne,
-    HasMany,
+    HasOne
 } from 'sequelize-typescript';
 import { Borrow } from 'src/borrowing/borrowing.entity';
 
