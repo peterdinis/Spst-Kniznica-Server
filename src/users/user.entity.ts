@@ -9,8 +9,10 @@ import {
     UpdatedAt,
     DeletedAt,
     HasMany,
+    HasOne,
 } from 'sequelize-typescript';
 import { Borrow } from 'src/borrowing/borrowing.entity';
+import {Upload} from "../uploads/upload.entity"
 
 export interface IUser {
     id: string;
@@ -21,6 +23,8 @@ export interface IUser {
     updatedAt: Date;
     deletedAt: Date;
     borrowedBooks: any
+    avatar?: Upload;
+    avatarId?: number;
 }
 @Table({
     tableName: 'students',
@@ -63,4 +67,12 @@ export class User extends Model<IUser> {
 
     @HasMany(() => Borrow)
     borrowedBooks: Borrow[];
+
+    @HasOne(() =>Upload)
+    avatar: Upload
+
+    @Column({
+        type: DataType.INTEGER
+    })
+    avatarId: number;
 }
