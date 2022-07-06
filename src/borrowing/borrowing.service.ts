@@ -3,8 +3,8 @@ import {Borrow} from "./borrowing.entity";
 import {Book} from "../book/book.entity";
 import {User} from "../users/user.entity";
 import { UpdateQuantityDto } from './dto/card.dto';
-import { BookRepository } from 'src/book/book.constants';
-import { UserRepository } from 'src/users/users.constants';
+import { BookRepository } from '../book/book.constants';
+import { UserRepository } from '../users/users.constants';
 import { BorrowingRepository } from './borrowing.constants';
 
 @Injectable()

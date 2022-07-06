@@ -8,7 +8,7 @@ import {
     BelongsTo,
     ForeignKey
 } from 'sequelize-typescript';
-import { Book } from 'src/book/book.entity';
+import { Book } from '../book/book.entity';
 import { User } from '../users/user.entity';
 
 

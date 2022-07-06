@@ -11,7 +11,7 @@ import {
     HasMany,
     HasOne,
 } from 'sequelize-typescript';
-import { Borrow } from 'src/borrowing/borrowing.entity';
+import { Borrow } from '../borrowing/borrowing.entity';
 import {Upload} from "../uploads/upload.entity"
 
 export interface IUser {

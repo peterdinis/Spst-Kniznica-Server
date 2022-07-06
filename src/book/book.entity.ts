@@ -8,7 +8,7 @@ import {
     Unique,
     HasOne
 } from 'sequelize-typescript';
-import { Borrow } from 'src/borrowing/borrowing.entity';
+import { Borrow } from '../borrowing/borrowing.entity';
 
 export interface IBook {
     id: number;
