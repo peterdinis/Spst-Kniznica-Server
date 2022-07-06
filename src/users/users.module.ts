@@ -4,12 +4,10 @@ import { userProviders } from './user.providers';
 import { DatabaseModule } from './../database/database.module';
 import { UsersService } from './users.service';
 import { JwtStrategy } from './auth/jwt-strategy';
-import { UploadsService } from '../uploads/uploads.service';
-
 @Module({
     imports: [DatabaseModule],
     controllers: [UsersController],
-    providers: [UsersService, ...userProviders, JwtStrategy, UploadsService],
+    providers: [UsersService, ...userProviders, JwtStrategy],
     exports: [...userProviders],
 })
 export class UsersModule {}

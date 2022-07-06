@@ -19,7 +19,7 @@ export const databaseProviders = [
             password: 'PETERdinis1234',
             database: 'spstapp',
           });
-          sequelize.addModels([Upload, Book, Category, User, Admin, Borrow]);
+          sequelize.addModels([Book, Category, User, Admin, Borrow]);
           await sequelize.sync();
           return sequelize;
         },
