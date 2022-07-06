@@ -8,12 +8,13 @@ import { UserLoginResponseDto } from './dto/user-login-response.dto';
 import { JwtPayload } from './auth/jwt-payload.model';
 import { sign } from 'jsonwebtoken';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRepository } from './users.constants';
 
 @Injectable()
 export class UsersService {
 
     constructor(
-        @Inject('UserRepository')
+        @Inject(UserRepository)
         private readonly usersRepository: typeof User,
     ) {}
 

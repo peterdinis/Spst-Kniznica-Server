@@ -5,10 +5,10 @@ import {DatabaseModule} from "../database/database.module"
 import {bookProviders} from "./book.providers"
 
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule,],
     controllers: [BookController],
     providers: [BookService, ...bookProviders],
-    exports: [BookService, ...bookProviders]
+    exports: [...bookProviders]
 })
 
 export class BookModule {}
