@@ -7,7 +7,7 @@ import { JwtStrategy } from './auth/jwt-strategy';
 import {ConfigModule} from "@nestjs/config"
 
 @Module({
-    imports: [DatabaseModule, ConfigModule, Logger],
+    imports: [DatabaseModule, ConfigModule],
     controllers: [UsersController],
     providers: [UsersService, ...userProviders, JwtStrategy],
     exports: [...userProviders],
