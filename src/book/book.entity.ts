@@ -6,11 +6,8 @@ import {
     DataType,
     Model,
     Unique,
-    HasOne,
-    ForeignKey,
-    BelongsTo
+    HasOne
 } from 'sequelize-typescript';
-import { Category } from '../category/category.entity';
 import { Borrow } from '../borrowing/borrowing.entity';
 
 export interface IBook {
@@ -21,10 +18,7 @@ export interface IBook {
     year: number;
     pages: number;
     avaiable: boolean;
-    borrowedTime: Date,
     borrowedBook: any;
-    categoryId: string;
-    category: Category
 }
 
 @Table({
@@ -69,14 +63,4 @@ export class Book extends Model<IBook> {
 
     @HasOne(() =>Borrow)
     borrowedBook: Borrow[]
-
-    @ForeignKey(() =>Category)
-    @Column({
-        type: DataType.STRING,
-        field: 'category_id'
-    })
-    categoryId: string;
-
-    @BelongsTo(() => Category)
-    category: Category;
 }
