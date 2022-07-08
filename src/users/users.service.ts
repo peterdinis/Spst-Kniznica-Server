@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { User } from './user.entity';
 import { genSalt, hash, compare } from 'bcrypt';
 import { UserDto } from './dto/user.dto';
@@ -9,16 +9,21 @@ import { JwtPayload } from './auth/jwt-payload.model';
 import { sign } from 'jsonwebtoken';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './users.constants';
+import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class UsersService {
 
     constructor(
         @Inject(UserRepository)
-        private readonly usersRepository: typeof User
+        private readonly usersRepository: typeof User,
+        private readonly configService: ConfigService
     ) {}
+    private readonly logger = new Logger(UsersService.name);
 
     async findAll() {
         const users = await this.usersRepository.findAll<User>();
+        this.logger.log("Return all users");
         return users.map(user => new UserDto(user));
     }
 
@@ -30,6 +35,8 @@ export class UsersService {
                 HttpStatus.NOT_FOUND,
             );
         }
+
+        this.logger.log("Find user by id");
         return new UserDto(user);
     }
 
@@ -52,6 +59,7 @@ export class UsersService {
 
             // when registering then log user in automatically by returning a token
             const token = await this.signToken(userData);
+            this.logger.log("New user was add to database");
             return new UserLoginResponseDto(userData, token);
         } catch (err) {
 
@@ -82,6 +90,7 @@ export class UsersService {
         }
 
         const token = await this.signToken(user);
+        this.logger.log("User successfully logged in app");
         return new UserLoginResponseDto(user, token);
     }
 
@@ -100,6 +109,7 @@ export class UsersService {
 
         try {
             const data = await user.save();
+            this.logger.log("User was updated")
             return new UserDto(data);
         } catch (err) {
             throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,21 +119,15 @@ export class UsersService {
     async delete(id: string) {
         const user = await this.usersRepository.findByPk<User>(id);
         await user.destroy();
+        this.logger.log("User was deleted");
         return new UserDto(user);
     }
 
     async signToken(user: User) {
         const payload: JwtPayload = {
             email: user.email,
-        };
-
-        return sign(payload, process.env.JWT_KEY as string, {});
+        };  
+        const jwtKey = this.configService.get<string>('JWT_KEY');
+        return sign(payload, jwtKey, {});
     }
-
-   /*  async addAvatar(userId: any, fileData: LocalFileDto) {
-        const avatar = await this.uploadsService.saveLocalFileData(fileData);
-        await this.usersRepository.update(userId, {
-          avatarId: avatar.id
-        })
-      } */
 }

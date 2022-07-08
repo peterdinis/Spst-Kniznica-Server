@@ -9,7 +9,6 @@ import {
     UpdatedAt,
     DeletedAt,
     HasMany,
-    HasOne,
 } from 'sequelize-typescript';
 import { Borrow } from '../borrowing/borrowing.entity';
 
