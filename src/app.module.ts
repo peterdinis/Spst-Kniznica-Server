@@ -7,6 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import {BorrowingModule} from "./borrowing/borrowing.module";
+import { EmailsModule } from './emails/emails.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,7 +22,8 @@ import {BorrowingModule} from "./borrowing/borrowing.module";
     BorrowingModule,
     SeederModule.forRoot({
       isGlobal: true
-   })
+   }),
+   EmailsModule
   ]
 })
 export class AppModule {}
