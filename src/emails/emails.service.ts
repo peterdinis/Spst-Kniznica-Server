@@ -5,5 +5,5 @@ import { Injectable } from '@nestjs/common';
 export class EmailsService {
     constructor(private readonly mailerService: MailerService) {}
 
-    async sendUserConfirmation() {}
+    async sendBorrowingConfirmEmail() {}
 }
