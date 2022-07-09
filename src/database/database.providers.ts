@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Borrow } from '../borrowing/borrowing.entity';
 import { Admin } from '../admin/admin.entity';
 import { Book } from '../book/book.entity';
 import { Category } from '../category/category.entity';
@@ -19,8 +18,8 @@ export const databaseProviders = [
             password: 'PETERdinis1234',
             database: 'spstapp',
           });
-          sequelize.addModels([Book, Category, User, Admin, Borrow]);
-          await sequelize.sync();
+          sequelize.addModels([Book, Category, User, Admin]);
+          await sequelize.sync({force: true});
           return sequelize;
         },
       },

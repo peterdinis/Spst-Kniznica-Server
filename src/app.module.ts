@@ -6,7 +6,6 @@ import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
-import {BorrowingModule} from "./borrowing/borrowing.module";
 import { EmailsModule } from './emails/emails.module';
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { EmailsModule } from './emails/emails.module';
     EventEmitterModule.forRoot(),
     AdminModule,
     UsersModule,
-    BorrowingModule,
     SeederModule.forRoot({
       isGlobal: true
    }),

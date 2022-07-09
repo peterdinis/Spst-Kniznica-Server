@@ -8,7 +8,6 @@ import {
     Unique,
     HasOne
 } from 'sequelize-typescript';
-import { Borrow } from '../borrowing/borrowing.entity';
 
 export interface IBook {
     id: number;
@@ -60,7 +59,4 @@ export class Book extends Model<IBook> {
         type: DataType.BOOLEAN
     })
     avaiable: boolean;
-
-    @HasOne(() =>Borrow)
-    borrowedBook: Borrow[]
 }
