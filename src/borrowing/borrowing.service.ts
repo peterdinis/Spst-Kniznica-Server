@@ -53,7 +53,7 @@ export class BorrowingService {
                     bookId,
                     userId
                 })
-
+                console.log("FOO")
                 newOrder.save();
 
                 return await this.borrowingRepository.findOne({
@@ -64,12 +64,13 @@ export class BorrowingService {
 
                     include: [Book, User]
                 })
+
             } else {
                 cartItem.quantity =  cartItem.quantity + 1;
                 return cartItem.save();
             }
         } catch(error) {
-            throw new BadRequestException(error)
+            throw new BadRequestException(error.message)
         }
     }
 

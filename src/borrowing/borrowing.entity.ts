@@ -44,12 +44,12 @@ export class Borrow extends Model<Borrow> {
 
     @ForeignKey(() =>Book)
     @Column({
-        type: DataType.UUID,
+        type: DataType.STRING,
         primaryKey: true,
         allowNull: false,
         references: {
             model: Book,
-            key: "bookId"
+            key: "id"
         }
     })
 
