@@ -19,7 +19,7 @@ export const databaseProviders = [
             database: 'spstapp',
           });
           sequelize.addModels([Book, Category, User, Admin]);
-          await sequelize.sync({force: true});
+          await sequelize.sync();
           return sequelize;
         },
       },
