@@ -4,17 +4,20 @@ import { Admin } from 'src/admin/admin.entity';
 import { Book } from 'src/book/book.entity';
 import { Category } from 'src/category/category.entity';
 import { User } from 'src/users/user.entity';
+import {ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: "postgres",
-            host: "localhost",
-            port: 5432,
-            username: 'postgres',
-            password: 'PETERdinis1234',
-            database: 'spstapp',
-            entities: [Book, Category, User, Admin],
-            synchronize: true,
+        TypeOrmModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => ({
+                type: "postgres",
+                username: configService.get("POSTGRES_USER"),
+                password: configService.get("POSTGRES_PASSWORD"),
+                database: configService.get("POSTGRES_DB"),
+                entities: [Book, Category, User, Admin],
+                synchronize: true,
+            })
         })
     ]
 })
