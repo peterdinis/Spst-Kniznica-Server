@@ -1,31 +1,17 @@
-import {
-    Table,
-    PrimaryKey,
-    AutoIncrement,
-    Column,
-    DataType,
-    Model,
-    HasMany
-} from 'sequelize-typescript';
+import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
 
-export interface ICategory {
-    id: number;
-    name: string;
-    description: string;
-}
-@Table({
-    tableName: "categories"
-})
+@Entity()
+export class Category {
+  @ApiProperty()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-export class Category extends Model<ICategory> {
-    @PrimaryKey
-    @AutoIncrement
-    @Column(DataType.BIGINT)
-    id: number;
+  @ApiProperty()
+  @Column()
+  name: string;
 
-    @Column
-    name: string;
-    
-    @Column
-    description: string;
+  @ApiProperty()
+  @Column()
+  description: string;
 }

@@ -5,7 +5,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
-import { SeederModule } from 'nestjs-sequelize-seeder';
 import { EmailsModule } from './emails/emails.module';
 import { BorrowingModule } from './borrowing/borrowing.module';
 import { DatabaseModule } from './database/database.module';
@@ -21,9 +20,6 @@ import { DatabaseModule } from './database/database.module';
     EventEmitterModule.forRoot(),
     AdminModule,
     UsersModule,
-    SeederModule.forRoot({
-      isGlobal: true
-   }),
    EmailsModule,
    BorrowingModule,
    DatabaseModule
