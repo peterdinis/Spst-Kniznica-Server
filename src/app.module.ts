@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { BookModule } from './book/book.module';
 import { CategoryModule } from './category/category.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -8,8 +8,13 @@ import { UsersModule } from './users/users.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { EmailsModule } from './emails/emails.module';
 import { BorrowingModule } from './borrowing/borrowing.module';
+
+
 @Module({
   imports: [
+    CacheModule.register({
+      isGlobal: true 
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'

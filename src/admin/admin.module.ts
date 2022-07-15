@@ -9,7 +9,6 @@ import { JwtStrategy } from "./auth/jwt-strategy";
     imports: [DatabaseModule],
     controllers: [AdminController],
     providers: [AdminService, ...adminProviders, JwtStrategy],
-    exports: []
 })
 
 export class AdminModule {}
