@@ -5,9 +5,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
-import { EmailsModule } from './emails/emails.module';
-import { BorrowingModule } from './borrowing/borrowing.module';
-import { DatabaseModule } from './database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from './admin/admin.entity';
 import { Book } from './book/book.entity';
@@ -36,10 +33,7 @@ import { User } from './users/user.entity';
     BookModule,
     EventEmitterModule.forRoot(),
     AdminModule,
-    UsersModule,
-    EmailsModule,
-    BorrowingModule,
-    DatabaseModule,
+    UsersModule
   ],
 })
 export class AppModule {}
