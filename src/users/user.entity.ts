@@ -1,60 +1,22 @@
-import {
-    Table,
-    Column,
-    Model,
-    Unique,
-    IsEmail,
-    DataType,
-    CreatedAt,
-    UpdatedAt,
-    DeletedAt,
-    HasMany,
-} from 'sequelize-typescript';
-export interface IUser {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt: Date;
-}
-@Table({
-    tableName: 'students',
-})
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
 
+@Entity("students")
+export class User {
+    @ApiProperty()
+    @PrimaryGeneratedColumn()
+    id: number;
 
-export class User extends Model<IUser> {
-    @Column({
-        type: DataType.UUID,
-        defaultValue: DataType.UUIDV4,
-        primaryKey: true,
-    })
-    id: string;
-
-    @Unique
-    @IsEmail
-    @Column
+    @Column()
+    @Index({ unique: true })
     email: string;
 
-    @Column
+    @Column()
     password: string;
 
-    @Column({ field: 'first_name' })
+    @Column()
     firstName: string;
 
-    @Column({ field: 'last_name' })
+    @Column()
     lastName: string;
-
-    @CreatedAt
-    @Column({ field: 'created_at' })
-    createdAt: Date;
-
-    @UpdatedAt
-    @Column({ field: 'updated_at' })
-    updatedAt: Date;
-
-    @DeletedAt
-    @Column({ field: 'deleted_at' })
-    deletedAt: Date;
 }
