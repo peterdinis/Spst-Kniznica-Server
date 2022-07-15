@@ -41,7 +41,7 @@ export class CategoryController {
     @ApiOkResponse()
     @Patch("/:id")
     updateCategory(
-        @Param("id") id: string,
+        @Param("id") id: number,
         @Body() updateData: UpdateCategoryDto
     ) {
         return this.categoriesService.updateCategory(id, updateData);
