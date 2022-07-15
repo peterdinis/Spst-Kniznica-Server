@@ -1,33 +1,29 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
-import { BookRepository } from './book.constants';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {Book} from "./book.entity"
 import {CreateBookDto} from "./dto/create-book.dto";
 import {UpdateBookDto} from "./dto/update-book.dto";
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BookService {
-  constructor(@Inject(BookRepository) private readonly bookRepository: typeof Book) {}
+  constructor(
+    @InjectRepository(Book) private bookRepository: Repository<Book>
+    ) {}
   private readonly logger = new Logger(BookService.name);
 
   async allBooks() {
-    const books = await this.bookRepository.findAll({});
+    const books = await this.bookRepository.find();
     this.logger.log("All books from database");
     return books;
   }
 
   async createBook(createBookData: CreateBookDto) {
-    const book = new Book();
-    book.name = createBookData.name,
-    book.description = createBookData.description,
-    book.author = createBookData.author;
-    book.year = createBookData.year;
-    book.pages = createBookData.pages;
-    book.avaiable = createBookData.avaiable;
-    this.logger.log("New book was created");
-    return book.save();
+    const newBook = await this.bookRepository.create(createBookData);
+    return newBook;
   }
 
-  async findOneBook(id: string) {
+  async findOneBook(id: number) {
     const book = await this.bookRepository.findOne({
       where: {
         id
@@ -38,33 +34,38 @@ export class BookService {
     return book;
   }
 
-  async updateBook(id: string, updateBook: UpdateBookDto) {
-    const book = await this.bookRepository.findOne({
-      where: {
-        id
+  async updateBook(id: number, updateBook: UpdateBookDto) {
+    try {
+      const book = await this.bookRepository.findOne({
+        where: {
+          id
+        }
+      });
+
+      if(!book) {
+        throw new NotFoundException("Book with this id not found");
       }
-    });
 
-    book.name = updateBook.name || book.name;
-    book.description = updateBook.description || book.description
-    book.author = updateBook.author || book.author;
-    book.year = updateBook.year || book.year;
-    book.pages = updateBook.pages || book.pages;
-    book.avaiable = updateBook.avaiable || book.avaiable;
-
-    this.logger.log("Update book by id");
-    return book.save();
+      this.logger.log("Update book");
+      return await this.bookRepository.update(id, updateBook);
+  
+    } catch(error) {
+      throw new BadRequestException(error);
+    }
+    
   }
 
-  async removeBook(id: string) {
-    const book = await this.bookRepository.findOne({
-      where: {
-        id
+  async removeBook(id) {
+    try {
+      const book = await this.bookRepository.findOneByOrFail(id);
+      if(!book) {
+        throw new NotFoundException("Book not found")
       }
-    });
 
-    await book.destroy();
-    this.logger.log("Remove book from database")
-    return book
+      this.logger.log("Delete book");
+      await this.bookRepository.remove(book);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

@@ -18,6 +18,7 @@ export class CategoryService {
 
   async createCategory(createData: CreateCategoryDto) {
     const newProduct = await this.categoryRepository.create(createData);
+    this.logger.log("Create new category");
     return newProduct;
   }
 
@@ -31,6 +32,8 @@ export class CategoryService {
         if(!category) {
           throw new NotFoundException("Category not found");
         }
+
+        this.logger.log("Update category");
         return await this.categoryRepository.update(id, updateData);
      } catch(error) {
       throw new BadRequestException(error);
@@ -43,6 +46,8 @@ export class CategoryService {
       if(!category) {
         throw new NotFoundException("Category not found");
       }
+
+      this.logger.log("Remove category")
       await this.categoryRepository.remove(category);
     } catch(error) {
       throw new BadRequestException(error);

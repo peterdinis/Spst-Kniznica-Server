@@ -44,7 +44,7 @@ export class BookController {
     @ApiOkResponse()
     @Get("/:id")
     oneBook(
-        @Param("id") id: string
+        @Param("id") id: number
     ) {
         return this.bookService.findOneBook(id);
     }
@@ -55,7 +55,7 @@ export class BookController {
     @ApiOkResponse()
     @Patch("/:id")
     updateBook(
-        @Param("id") id: string,
+        @Param("id") id: number,
         @Body() updateBookData: UpdateBookDto
     ) {
         return this.bookService.updateBook(id, updateBookData);
@@ -66,7 +66,7 @@ export class BookController {
     })
     @Delete("/:id")
     deleteBook(
-        @Param("id") id: string
+        @Param("id") id
     ) {
         return this.bookService.removeBook(id);
     }
