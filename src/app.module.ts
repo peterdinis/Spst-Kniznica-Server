@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { EmailsModule } from './emails/emails.module';
 import { BorrowingModule } from './borrowing/borrowing.module';
+import {HealthModule} from './health/health.modulee';
 
 
 @Module({
@@ -28,7 +29,8 @@ import { BorrowingModule } from './borrowing/borrowing.module';
       isGlobal: true
    }),
    EmailsModule,
-   BorrowingModule
+   BorrowingModule,
+   HealthModule
   ]
 })
 export class AppModule {}
