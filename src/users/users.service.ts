@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { User } from './user.entity';
 import { genSalt, hash, compare } from 'bcrypt';
 import { UserDto } from './dto/user.dto';
@@ -29,11 +29,14 @@ export class UsersService {
     }
 
     async getUser(id: number) {
-        const user = await this.usersRepository.findOne(id);
+        const user = await this.usersRepository.findOne({
+            where: {
+                id
+            }
+        });
         if (!user) {
-            throw new HttpException(
-                'User with given id not found',
-                HttpStatus.NOT_FOUND,
+            throw new NotFoundException(
+                'User with given id not found'
             );
         }
 
@@ -76,17 +79,15 @@ export class UsersService {
             where: { email },
         });
         if (!user) {
-            throw new HttpException(
+            throw new BadRequestException(
                 'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
             );
         }
 
         const isMatch = await compare(password, user.password);
         if (!isMatch) {
-            throw new HttpException(
+            throw new BadRequestException(
                 'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
             );
         }
 
@@ -100,32 +101,38 @@ export class UsersService {
     }
 
     async update(id: number, updateUserDto: UpdateUserDto) {
-        const user = await this.usersRepository.findOne(id);
-        if (!user) {
-            throw new HttpException('User not found.', HttpStatus.NOT_FOUND);
-        }
-
-        user.firstName = updateUserDto.firstName || user.firstName;
-        user.lastName = updateUserDto.lastName || user.lastName;
-
         try {
-            const data = await user.save();
+            const user = await this.usersRepository.findOne({
+                where: {
+                    id
+                }
+            });
+            if (!user) {
+                throw new NotFoundException('User not found.');
+            }
             this.logger.log("User was updated")
+            const data: any = await this.usersRepository.update(id, updateUserDto);
             return new UserDto(data);
         } catch (err) {
-            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException(err);
         }
     }
 
     async delete(id: number) {
-        const user = await this.usersRepository.findOne({
-            where: {
-                id
+        try {
+            const user = await this.usersRepository.findOne({
+                where: {
+                    id
+                }
+            });
+            if(!user) {
+                throw new NotFoundException("User not found with this id")
             }
-        });
-        await user.destroy();
-        this.logger.log("User was deleted");
-        return new UserDto(user);
+            this.logger.log("Removing user...");
+            await this.usersRepository.remove(user);
+        } catch (err) {
+            throw new BadRequestException(err);
+        }
     }
 
     async signToken(user: User) {
