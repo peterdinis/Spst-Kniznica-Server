@@ -9,13 +9,15 @@ import { JwtPayload } from './auth/jwt-payload.model';
 import { sign } from 'jsonwebtoken';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 
 @Injectable()
 export class UsersService {
 
     constructor(
-        @Inject(UserRepository)
-        private readonly usersRepository: typeof User,
+        @InjectRepository(User) private usersRepository: Repository<User>,
         private readonly configService: ConfigService
     ) {}
     private readonly logger = new Logger(UsersService.name);
