@@ -23,13 +23,13 @@ export class UsersService {
     private readonly logger = new Logger(UsersService.name);
 
     async findAll() {
-        const users = await this.usersRepository.findAll<User>();
+        const users = await this.usersRepository.find();
         this.logger.log("Return all users");
         return users.map(user => new UserDto(user));
     }
 
-    async getUser(id: string) {
-        const user = await this.usersRepository.findByPk<User>(id);
+    async getUser(id: number) {
+        const user = await this.usersRepository.findOne(id);
         if (!user) {
             throw new HttpException(
                 'User with given id not found',
@@ -42,7 +42,7 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string) {
-        return await this.usersRepository.findOne<User>({
+        return await this.usersRepository.findOne({
             where: { email },
         });
     }
@@ -56,7 +56,7 @@ export class UsersService {
             const salt = await genSalt(10);
             user.password = await hash(createUserDto.password, salt);
 
-            const userData = await user.save();
+            const userData = await this.usersRepository.create(createUserDto);
 
             // when registering then log user in automatically by returning a token
             const token = await this.signToken(userData);
@@ -72,7 +72,7 @@ export class UsersService {
         const email = userLoginRequestDto.email;
         const password = userLoginRequestDto.password;
 
-        const user = await this.usersRepository.findOne<User>({
+        const user = await this.usersRepository.findOne({
             where: { email },
         });
         if (!user) {
@@ -99,8 +99,8 @@ export class UsersService {
         /* TODO: Later */
     }
 
-    async update(id: string, updateUserDto: UpdateUserDto) {
-        const user = await this.usersRepository.findByPk<User>(id);
+    async update(id: number, updateUserDto: UpdateUserDto) {
+        const user = await this.usersRepository.findOne(id);
         if (!user) {
             throw new HttpException('User not found.', HttpStatus.NOT_FOUND);
         }
@@ -117,8 +117,12 @@ export class UsersService {
         }
     }
 
-    async delete(id: string) {
-        const user = await this.usersRepository.findByPk<User>(id);
+    async delete(id: number) {
+        const user = await this.usersRepository.findOne({
+            where: {
+                id
+            }
+        });
         await user.destroy();
         this.logger.log("User was deleted");
         return new UserDto(user);
