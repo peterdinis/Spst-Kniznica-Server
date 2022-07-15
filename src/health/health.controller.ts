@@ -2,17 +2,18 @@ import { Controller, Get } from '@nestjs/common';
 import {
   HealthCheckService,
   HealthCheck,
-  TypeOrmHealthIndicator,
+  SequelizeHealthIndicator,
   MemoryHealthIndicator,
   DiskHealthIndicator,
 } from '@nestjs/terminus';
+import {ApiTags} from "@nestjs/swagger";
  
- 
+@ApiTags("Application healt status")
 @Controller('health')
 class HealthController {
   constructor(
     private healthCheckService: HealthCheckService,
-    private typeOrmHealthIndicator: TypeOrmHealthIndicator,
+    private sequelizeHealthIndicator: SequelizeHealthIndicator,
     private memoryHealthIndicator: MemoryHealthIndicator,
     private diskHealthIndicator: DiskHealthIndicator
   ) {}
@@ -21,7 +22,7 @@ class HealthController {
   @HealthCheck()
   check() {
     return this.healthCheckService.check([
-      () => this.typeOrmHealthIndicator.pingCheck('database'),
+      () => this.sequelizeHealthIndicator.pingCheck('database'),
       // the process should not use more than 300MB memory
       () => this.memoryHealthIndicator.checkHeap('memory heap', 300 * 1024 * 1024),
       // The process should not have more than 300MB RSS memory allocated

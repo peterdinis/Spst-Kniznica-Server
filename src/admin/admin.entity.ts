@@ -7,25 +7,28 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
-    DeletedAt,
+    DeletedAt
 } from 'sequelize-typescript';
-
+import { Optional } from 'sequelize';
 interface IAdmin {
     id: string;
     email: string;
     firstName: string;
     lastName: string;
     status: string;
+    isAdmin: boolean;
     createdAt: Date;
     updatedAt: Date;
     deletedAt: Date;
 }
 
+type AdminCreationAttributes = Optional<IAdmin, 'isAdmin'>;
+
 @Table({
     tableName: "teachers"
 })
 
-export class Admin extends Model<IAdmin> {
+export class Admin extends Model<IAdmin, AdminCreationAttributes> {
     @Column({
         type: DataType.UUID,
         defaultValue: DataType.UUIDV4,
@@ -49,6 +52,12 @@ export class Admin extends Model<IAdmin> {
 
     @Column({ field: 'status'})
     status: string;
+
+    @Column({
+        type: DataType.BOOLEAN, 
+        defaultValue: true
+    })
+    isAdmin: boolean;
 
     @CreatedAt
     @Column({ field: 'created_at' })
