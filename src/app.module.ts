@@ -7,15 +7,15 @@ import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { SeederModule } from 'nestjs-sequelize-seeder';
 import { BorrowingModule } from './borrowing/borrowing.module';
-import {HealthModule} from './health/health.module';
+import { HealthModule } from './health/health.module';
 import { CaslModule } from './common/casl/casl.module';
-
+import { TeachersModule } from './teachers/teachers.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env'
+      envFilePath: '.env',
     }),
     CategoryModule,
     BookModule,
@@ -23,11 +23,12 @@ import { CaslModule } from './common/casl/casl.module';
     AdminModule,
     UsersModule,
     SeederModule.forRoot({
-      isGlobal: true
-   }),
-   BorrowingModule,
-   HealthModule,
-   CaslModule
-  ]
+      isGlobal: true,
+    }),
+    BorrowingModule,
+    HealthModule,
+    CaslModule,
+    TeachersModule
+  ],
 })
 export class AppModule {}
