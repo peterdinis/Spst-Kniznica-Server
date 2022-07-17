@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { Admin} from './admin.entity';
 import { genSalt, hash, compare } from 'bcrypt';
 import { AdminDto } from './dto/admin.dto';
@@ -24,9 +24,8 @@ export class AdminService {
     async getAdmin(id: string) {
         const admin = await this.adminRepository.findByPk<Admin>(id);
         if (!admin) {
-            throw new HttpException(
-                'User with given id not found',
-                HttpStatus.NOT_FOUND,
+            throw new NotFoundException(
+                'Admin with given id not found',
             );
         }
         return new AdminDto(admin);

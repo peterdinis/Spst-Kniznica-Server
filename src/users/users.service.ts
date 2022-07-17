@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { Injectable, Inject, Logger, InternalServerErrorException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { User } from './user.entity';
 import { genSalt, hash, compare } from 'bcrypt';
 import { UserDto } from './dto/user.dto';
@@ -30,9 +30,8 @@ export class UsersService {
     async getUser(id: string) {
         const user = await this.usersRepository.findByPk<User>(id);
         if (!user) {
-            throw new HttpException(
+            throw new NotFoundException(
                 'User with given id not found',
-                HttpStatus.NOT_FOUND,
             );
         }
 
@@ -63,7 +62,7 @@ export class UsersService {
             return new UserLoginResponseDto(userData, token);
         } catch (err) {
 
-            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException(err.message)
         }
     }
 
@@ -75,17 +74,15 @@ export class UsersService {
             where: { email },
         });
         if (!user) {
-            throw new HttpException(
+            throw new BadRequestException(
                 'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
             );
         }
 
         const isMatch = await compare(password, user.password);
         if (!isMatch) {
-            throw new HttpException(
+            throw new BadRequestException(
                 'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
             );
         }
 
@@ -101,7 +98,7 @@ export class UsersService {
     async update(id: string, updateUserDto: UpdateUserDto) {
         const user = await this.usersRepository.findByPk<User>(id);
         if (!user) {
-            throw new HttpException('User not found.', HttpStatus.NOT_FOUND);
+            throw new NotFoundException('User not found.');
         }
 
         user.firstName = updateUserDto.firstName || user.firstName;
@@ -112,7 +109,7 @@ export class UsersService {
             this.logger.log("User was updated")
             return new UserDto(data);
         } catch (err) {
-            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException(err.message);
         }
     }
 
