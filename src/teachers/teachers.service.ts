@@ -1,11 +1,15 @@
-import { Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { genSalt, hash } from "bcrypt";
+import { compare, genSalt, hash } from "bcrypt";
 import { UserLoginResponseDto } from "src/users/dto/user-login-response.dto";
+import { JwtPayload } from "./auth/jwt-payload.model";
 import { CreateTeacherDto } from "./dto/create-teacher.dto";
 import { TeacherDto } from "./dto/teacher.dto";
 import { TeacherRepository } from "./teachers.constants";
 import { Teacher } from "./teachers.entity";
+import { sign } from 'jsonwebtoken';
+import { AdminLoginResponseDto } from "src/admin/dto/admin-login-response.dto";
+import { TeacherLoginResponseDto } from "./dto/teacher-login-request.dto";
 
 @Injectable()
 export class TeachersService {
@@ -56,6 +60,27 @@ export class TeachersService {
         } catch (error) {
             throw new InternalServerErrorException(error.message);
         }
+    }
+
+    async login(teacherLoginRequestDto: TeacherLoginRequestDto) {
+        const email = teacherLoginRequestDto.email;
+        const password = teacherLoginRequestDto.password;
+
+        const teacher = await this.teacherRepository.findOne<Teacher>({
+            where: { email }
+        })
+
+        if(!teacher) {
+            throw new BadRequestException("Teacher not found");
+        }
+
+        const isMatch = await compare(password, teacher.password);
+        if(!isMatch) {
+            throw new BadRequestException("Invalid password or password");
+        }
+
+        const token = await this.signToken(teacher);
+        return new TeacherLoginResponseDto(teacher, token);
     }
 
 

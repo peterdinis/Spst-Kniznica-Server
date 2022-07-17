@@ -65,7 +65,6 @@ export class AdminService {
         const admin = await this.adminRepository.findOne<Admin>({
             where: { email },
         });
-        console.log(admin);
         if (!admin) {
             throw new HttpException(
                 'Invalid email or password.',
