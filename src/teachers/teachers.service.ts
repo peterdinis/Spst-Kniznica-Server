@@ -8,8 +8,8 @@ import { TeacherDto } from "./dto/teacher.dto";
 import { TeacherRepository } from "./teachers.constants";
 import { Teacher } from "./teachers.entity";
 import { sign } from 'jsonwebtoken';
-import { AdminLoginResponseDto } from "src/admin/dto/admin-login-response.dto";
-import { TeacherLoginResponseDto } from "./dto/teacher-login-request.dto";
+import { TeacherLoginRequestDto} from "./dto/teacher-login-request.dto";
+import { TeacherLoginResponseDto } from "./dto/teacher-response.dto";
 
 @Injectable()
 export class TeachersService {

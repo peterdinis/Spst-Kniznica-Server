@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { Admin} from './admin.entity';
 import { genSalt, hash, compare } from 'bcrypt';
 import { AdminDto } from './dto/admin.dto';
@@ -53,7 +53,7 @@ export class AdminService {
             return new AdminLoginResponseDto(adminData, token);
         } catch (err) {
 
-            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException(err.message);
         }
     }
 
@@ -65,17 +65,15 @@ export class AdminService {
             where: { email },
         });
         if (!admin) {
-            throw new HttpException(
-                'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
+            throw new BadRequestException(
+                'Requested admin not found',
             );
         }
 
         const isMatch = await compare(password, admin.password);
         if (!isMatch) {
-            throw new HttpException(
-                'Invalid email or password.',
-                HttpStatus.BAD_REQUEST,
+            throw new BadRequestException(
+                'Invalid email or password.'
             );
         }
 
@@ -86,7 +84,7 @@ export class AdminService {
     async update(id: string, updateAdminDto: UpdateAdminDto) {
         const admin = await this.adminRepository.findByPk<Admin>(id);
         if (!admin) {
-            throw new HttpException('admin not found.', HttpStatus.NOT_FOUND);
+            throw new NotFoundException('Admin not found.');
         }
 
         admin.firstName = updateAdminDto.firstName || admin.firstName;
@@ -96,7 +94,7 @@ export class AdminService {
             const data = await admin.save();
             return new AdminDto(data);
         } catch (err) {
-            throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new InternalServerErrorException(err.message);
         }
     }
 
