@@ -10,6 +10,7 @@ import { sign } from 'jsonwebtoken';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './users.constants';
 import { ConfigService } from '@nestjs/config';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class UsersService {
@@ -17,7 +18,8 @@ export class UsersService {
     constructor(
         @Inject(UserRepository)
         private readonly usersRepository: typeof User,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly cls: ClsService,
     ) {}
     private readonly logger = new Logger(UsersService.name);
 
@@ -34,8 +36,12 @@ export class UsersService {
                 'User with given id not found',
             );
         }
-
+        const loggedUserToken = this.cls.get("token");
+        const loggedUserInformation = this.cls.get("user");
         this.logger.log("Find user by id");
+        this.logger.log("Logged user token", loggedUserToken);
+        this.logger.log("Logged user information", loggedUserInformation);
+        
         return new UserDto(user);
     }
 
@@ -87,6 +93,8 @@ export class UsersService {
         }
 
         const token = await this.signToken(user);
+        this.cls.set("userToken", token);
+        this.cls.set("userInformation", user);
         this.logger.log("User successfully logged in app");
         return new UserLoginResponseDto(user, token);
     }

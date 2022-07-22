@@ -9,6 +9,7 @@ import { BorrowingModule } from './borrowing/borrowing.module';
 import { HealthModule } from './health/health.module';
 import { CaslModule } from './common/casl/casl.module';
 import { TeachersModule } from './teachers/teachers.module';
+import {ClsModule} from "nestjs-cls"
 
 @Module({
   imports: [
@@ -24,7 +25,11 @@ import { TeachersModule } from './teachers/teachers.module';
     BorrowingModule,
     HealthModule,
     CaslModule,
-    TeachersModule
+    TeachersModule,
+    ClsModule.register({
+      global: true,
+      middleware: { mount: true },
+  }),
   ],
 })
 export class AppModule {}

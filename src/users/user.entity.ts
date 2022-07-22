@@ -7,8 +7,7 @@ import {
     DataType,
     CreatedAt,
     UpdatedAt,
-    DeletedAt,
-    HasMany,
+    DeletedAt
 } from 'sequelize-typescript';
 export interface IUser {
     id: string;
