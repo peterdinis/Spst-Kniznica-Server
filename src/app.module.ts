@@ -9,7 +9,8 @@ import { BorrowingModule } from './borrowing/borrowing.module';
 import { HealthModule } from './health/health.module';
 import { CaslModule } from './common/casl/casl.module';
 import { TeachersModule } from './teachers/teachers.module';
-import {ClsModule} from "nestjs-cls"
+import { ClsModule } from 'nestjs-cls';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import {ClsModule} from "nestjs-cls"
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ChatModule,
     CategoryModule,
     BookModule,
     EventEmitterModule.forRoot(),
