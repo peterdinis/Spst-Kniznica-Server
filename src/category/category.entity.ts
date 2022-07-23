@@ -7,11 +7,13 @@ import {
     Model,
     HasMany
 } from 'sequelize-typescript';
+import { Book } from '../book/book.entity';
 
 export interface ICategory {
     id: number;
     name: string;
     description: string;
+    books: Book[];
 }
 @Table({
     tableName: "categories"
@@ -28,4 +30,7 @@ export class Category extends Model<ICategory> {
     
     @Column
     description: string;
+
+    @HasMany(() => Book)
+    books: Book[];
 }

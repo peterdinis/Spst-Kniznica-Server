@@ -19,7 +19,8 @@ export interface IBook {
     year: number;
     pages: number;
     avaiable: boolean;
-    borrowedBook: any;
+    categoryId: number;
+    category: Category;
 }
 
 @Table({
@@ -62,10 +63,10 @@ export class Book extends Model<IBook> {
     })
     avaiable: boolean;
 
-    @ForeignKey(() =>Category)
+    @ForeignKey(() => Category)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
+        allowNull: false
     })
     categoryId: number;
 

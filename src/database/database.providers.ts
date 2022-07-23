@@ -3,7 +3,6 @@ import { Admin } from '../admin/admin.entity';
 import { Book } from '../book/book.entity';
 import { Category } from '../category/category.entity';
 import { User } from '../users/user.entity';
-import {Upload} from "../uploads/upload.entity"
 import { SEQUELIZE } from './database.constants';
 
 export const databaseProviders = [
