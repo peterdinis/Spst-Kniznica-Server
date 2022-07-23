@@ -6,8 +6,10 @@ import {
     DataType,
     Model,
     Unique,
-    HasOne
+    ForeignKey,
+    BelongsTo
 } from 'sequelize-typescript';
+import { Category } from '../category/category.entity';
 
 export interface IBook {
     id: number;
@@ -59,4 +61,14 @@ export class Book extends Model<IBook> {
         type: DataType.BOOLEAN
     })
     avaiable: boolean;
+
+    @ForeignKey(() =>Category)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    categoryId: number;
+
+    @BelongsTo(() => Category)
+    category: Category;
 }
